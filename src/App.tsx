@@ -254,7 +254,7 @@ function App() {
             {/* mobilePOS Project */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                <div className="text-white text-6xl font-bold">mPOS</div>
+                <div className="text-white text-6xl font-bold">mobilePOS</div>
               </div>
               <div className="p-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-3">mobilePOS</h3>
@@ -282,14 +282,12 @@ function App() {
                   </ul>
                 </div>
                 <div className="flex space-x-3">
+                  <a href="https://github.com/xinfay/Arkyna-mobilePOS" target = "_blank">
                   <button className="flex items-center text-orange-500 hover:text-orange-600 transition-colors">
                     <Github size={16} className="mr-1" />
                     GitHub
                   </button>
-                  <button className="flex items-center text-orange-500 hover:text-orange-600 transition-colors">
-                    <ExternalLink size={16} className="mr-1" />
-                    Live Demo
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -326,10 +324,6 @@ function App() {
                   </ul>
                 </div>
                 <div className="flex space-x-3">
-                  <button className="flex items-center text-orange-500 hover:text-orange-600 transition-colors">
-                    <Github size={16} className="mr-1" />
-                    GitHub
-                  </button>
                   <button className="flex items-center text-orange-500 hover:text-orange-600 transition-colors">
                     <ExternalLink size={16} className="mr-1" />
                     Live Demo
