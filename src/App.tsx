@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ChevronRight, Users, Target, Award, Mail, Phone, Linkedin, Github, ExternalLink } from 'lucide-react';
+import TeamCarousel from "./components/TeamCarousel";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -62,8 +63,8 @@ function App() {
                   onClick={() => scrollToSection(item.id)}
                   className={`text-sm font-medium transition-colors duration-200 ${
                     activeSection === item.id
-                      ? 'text-orange-400'
-                      : 'text-gray-300 hover:text-orange-400'
+                      ? 'text-red-400'
+                      : 'text-gray-300 hover:text-red-400'
                   }`}
                 >
                   {item.label}
@@ -75,7 +76,7 @@ function App() {
             <div className="md:hidden">
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="text-gray-300 hover:text-orange-400 transition-colors"
+                className="text-gray-300 hover:text-red-400 transition-colors"
               >
                 {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
               </button>
@@ -116,10 +117,10 @@ function App() {
                 alt="Arkyna" 
                 className="h-32 sm:h-36 md:h-40 lg:h-44 xl:h-48 w-auto mx-auto mb-8 drop-shadow-2xl" 
               />
-              <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent mb-4 animate-gradient">
+                <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-orange-300 to-red-700 bg-clip-text text-transparent mb-4">
                 ARKYNA
-              </h1>
-              <p className="text-xl md:text-2xl text-gray-300 font-light tracking-wide">
+                </h1>
+              <p className="text-xl md:text-2xl text-orange-200 font-light tracking-wide">
                 BRINGING GENERATIONS CLOSER
               </p>
             </div>
@@ -134,7 +135,7 @@ function App() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <button
                   onClick={() => scrollToSection('mentorship')}
-                  className="bg-gradient-to-r from-orange-500 to-red-500 text-white px-8 py-3 rounded-lg font-medium hover:shadow-glow transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center"
+                  className="bg-gradient-to-r from-orange-400 to-red-700 animate-gradient text-white px-8 py-3 rounded-lg font-medium hover:shadow-glow transform hover:-translate-y-0.5 transition-all duration-200 flex items-center justify-center"
                 >
                   Explore Mentorship
                   <ChevronRight size={20} className="ml-2" />
@@ -161,9 +162,9 @@ function App() {
       <section id="mentorship" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Summer Incubator Program</h2>
+            <h2 className="text-4xl font-bold text-red-600 mb-4">Summer Incubator Program</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Empowering the next generation of innovators through comprehensive mentorship and hands-on experience
+              Empowering the next generation of innovators through comprehensive mentorship and hands-on experience.
             </p>
           </div>
 
@@ -174,7 +175,7 @@ function App() {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Expert Mentorship</h3>
               <p className="text-gray-600">
-                Learn from industry professionals with years of experience in software development and entrepreneurship
+                Learn from industry professionals with years of experience in software development and entrepreneurship.
               </p>
             </div>
 
@@ -184,7 +185,7 @@ function App() {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Real Projects</h3>
               <p className="text-gray-600">
-                Work on actual client projects and build solutions that make a real impact in the community
+                Work on real-world projects and build solutions that make a real impact in the community.
               </p>
             </div>
 
@@ -194,11 +195,11 @@ function App() {
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Career Growth</h3>
               <p className="text-gray-600">
-                Build your portfolio, network with professionals, and gain the skills needed for a successful tech career
+                Build your portfolio, network with professionals, and gain the skills needed for a successful tech career.
               </p>
             </div>
           </div>
-
+{/* 
           <div className="bg-gray-50 rounded-2xl p-8 mb-12">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Program Timeline</h3>
             <div className="space-y-4">
@@ -224,15 +225,15 @@ function App() {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="text-center">
-            <div className="bg-white rounded-2xl shadow-lg p-8 max-w-md mx-auto">
+            <div className="bg-[#fff9e8] rounded-2xl shadow-lg p-8 max-w-md mx-auto">
               <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Apply?</h3>
               <p className="text-gray-600 mb-6">
-                Join our next cohort and start your journey in tech innovation
+                Join our next cohort and start your journey in tech innovation.
               </p>
-              <button className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
+              <button className="w-full bg-gradient-to-r from-red-600 to-orange-400 animate-gradient text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
                 Apply Now
               </button>
             </div>
@@ -241,12 +242,12 @@ function App() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 bg-gray-50">
+      <section id="projects" className="py-20 bg-orange-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Featured Projects</h2>
+            <h2 className="text-4xl font-bold text-red-600 mb-4">Featured Projects</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Innovative solutions developed by our talented participants
+              Innovative solutions developed by our talented participants:
             </p>
           </div>
 
@@ -254,7 +255,7 @@ function App() {
             {/* mobilePOS Project */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                <div className="text-white text-6xl font-bold">mobilePOS</div>
+                <div className="text-white text-5xl font-bold">mobilePOS</div>
               </div>
               <div className="p-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-3">mobilePOS</h3>
@@ -294,8 +295,8 @@ function App() {
 
             {/* CompanionAI Project */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="h-48 bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
-                <div className="text-white text-4xl font-bold">CompanionAI</div>
+              <div className="h-48 bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center">
+                <div className="text-white text-5xl font-bold">CompanionAI</div>
               </div>
               <div className="p-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-3">CompanionAI</h3>
@@ -304,7 +305,7 @@ function App() {
                   This innovative AI solution helps bridge generational gaps by creating meaningful connections 
                   through advanced conversational AI technology.
                 </p>
-                <div className="mb-4">
+                {/* <div className="mb-4">
                   <h4 className="font-semibold text-gray-900 mb-2">Technologies Used:</h4>
                   <div className="flex flex-wrap gap-2">
                     <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">React</span>
@@ -322,11 +323,11 @@ function App() {
                     <li>• Cross-generational communication</li>
                     <li>• Emotional intelligence integration</li>
                   </ul>
-                </div>
+                </div> */}
                 <div className="flex space-x-3">
                   <button className="flex items-center text-orange-500 hover:text-orange-600 transition-colors">
                     <ExternalLink size={16} className="mr-1" />
-                    Live Demo
+                    Learn More
                   </button>
                 </div>
               </div>
@@ -336,102 +337,7 @@ function App() {
       </section>
 
       {/* Team Section */}
-      <section id="team" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Team</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Meet the passionate individuals driving innovation at Arkyna
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Team Member 1 */}
-            <div className="bg-gray-50 rounded-2xl p-8 text-center hover:shadow-lg transition-shadow duration-300">
-              <div className="w-24 h-24 bg-gradient-to-r from-orange-500 to-red-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <span className="text-white text-2xl font-bold">JD</span>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">John Doe</h3>
-              <p className="text-orange-500 font-medium mb-3">Founder & CEO</p>
-              <p className="text-gray-600 text-sm mb-4">
-                Passionate about bridging generational gaps through technology. 10+ years experience in software development and entrepreneurship.
-              </p>
-              <div className="mb-4">
-                <h4 className="font-semibold text-gray-900 text-sm mb-2">Expertise:</h4>
-                <div className="flex flex-wrap gap-1 justify-center">
-                  <span className="bg-orange-100 text-orange-800 px-2 py-1 rounded text-xs">Leadership</span>
-                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Strategy</span>
-                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Full-Stack</span>
-                </div>
-              </div>
-              <div className="flex justify-center space-x-3">
-                <button className="text-gray-400 hover:text-orange-500 transition-colors">
-                  <Mail size={18} />
-                </button>
-                <button className="text-gray-400 hover:text-orange-500 transition-colors">
-                  <Linkedin size={18} />
-                </button>
-              </div>
-            </div>
-
-            {/* Team Member 2 */}
-            <div className="bg-gray-50 rounded-2xl p-8 text-center hover:shadow-lg transition-shadow duration-300">
-              <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <span className="text-white text-2xl font-bold">JS</span>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Jane Smith</h3>
-              <p className="text-orange-500 font-medium mb-3">CTO & Lead Developer</p>
-              <p className="text-gray-600 text-sm mb-4">
-                Expert in AI and machine learning with a focus on creating meaningful human-computer interactions. PhD in Computer Science.
-              </p>
-              <div className="mb-4">
-                <h4 className="font-semibold text-gray-900 text-sm mb-2">Expertise:</h4>
-                <div className="flex flex-wrap gap-1 justify-center">
-                  <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">AI/ML</span>
-                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">React</span>
-                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Node.js</span>
-                </div>
-              </div>
-              <div className="flex justify-center space-x-3">
-                <button className="text-gray-400 hover:text-orange-500 transition-colors">
-                  <Mail size={18} />
-                </button>
-                <button className="text-gray-400 hover:text-orange-500 transition-colors">
-                  <Linkedin size={18} />
-                </button>
-              </div>
-            </div>
-
-            {/* Team Member 3 */}
-            <div className="bg-gray-50 rounded-2xl p-8 text-center hover:shadow-lg transition-shadow duration-300">
-              <div className="w-24 h-24 bg-gradient-to-r from-green-500 to-teal-500 rounded-full mx-auto mb-4 flex items-center justify-center">
-                <span className="text-white text-2xl font-bold">MJ</span>
-              </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">Mike Johnson</h3>
-              <p className="text-orange-500 font-medium mb-3">Head of Mentorship</p>
-              <p className="text-gray-600 text-sm mb-4">
-                Dedicated educator and mentor with 8+ years of experience in guiding young developers and fostering innovation.
-              </p>
-              <div className="mb-4">
-                <h4 className="font-semibold text-gray-900 text-sm mb-2">Expertise:</h4>
-                <div className="flex flex-wrap gap-1 justify-center">
-                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Mentorship</span>
-                  <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Flutter</span>
-                  <span className="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">Mobile Dev</span>
-                </div>
-              </div>
-              <div className="flex justify-center space-x-3">
-                <button className="text-gray-400 hover:text-orange-500 transition-colors">
-                  <Mail size={18} />
-                </button>
-                <button className="text-gray-400 hover:text-orange-500 transition-colors">
-                  <Linkedin size={18} />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <TeamCarousel />
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
@@ -461,7 +367,7 @@ function App() {
           </div>
           
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
-            <p>&copy; 2024 Arkyna. All rights reserved.</p>
+            <p>&copy; 2025 Arkyna. All rights reserved.</p>
           </div>
         </div>
       </footer>
