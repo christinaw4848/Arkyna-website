@@ -120,7 +120,7 @@ export default function TeamCarousel() {
                     {teamMembers.map((member, idx) => (
                         <div key={idx} className="flex justify-center h-full overflow-visible">
                             <div
-                                className="bg-[#fcefed] rounded-3xl p-8 text-center w-[350px] flex flex-col items-center shadow-md h-auto overflow-visible"
+                                className="bg-red-200 rounded-3xl p-8 text-center w-[350px] flex flex-col items-center shadow-md h-auto overflow-visible"
                             >
                                 <div
                                     className="w-24 h-24 rounded-full mb-4 flex items-center justify-center text-3xl font-bold text-white"
@@ -134,7 +134,7 @@ export default function TeamCarousel() {
                                 <h3 className="font-bold text-2xl mb-1">
                                     {member.name}
                                 </h3>
-                                <div className="text-[#f7971e] mb-2 font-semibold">
+                                <div className="text-orange-600 mb-2 font-semibold">
                                     {member.role}
                                 </div>
                                 <div className="mb-3 text-gray-700">{member.desc}</div>

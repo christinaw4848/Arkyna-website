@@ -169,32 +169,32 @@ function App() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-orange-50 to-red-50 border border-orange-100">
+            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-orange-200 to-red-200 border border-orange-100">
               <div className="bg-gradient-to-r from-orange-500 to-red-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Users className="text-white" size={24} />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Expert Mentorship</h3>
-              <p className="text-gray-600">
+              <p className="text-gray-700">
                 Learn from industry professionals with years of experience in software development and entrepreneurship.
               </p>
             </div>
 
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-orange-50 to-red-50 border border-orange-100">
+            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-red-200 to-orange-200 border border-orange-100">
               <div className="bg-gradient-to-r from-orange-500 to-red-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Target className="text-white" size={24} />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Real Projects</h3>
-              <p className="text-gray-600">
+              <p className="text-gray-700">
                 Work on real-world projects and build solutions that make a real impact in the community.
               </p>
             </div>
 
-            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-orange-50 to-red-50 border border-orange-100">
+            <div className="text-center p-6 rounded-xl bg-gradient-to-br from-orange-200 to-red-200 border border-orange-100">
               <div className="bg-gradient-to-r from-orange-500 to-red-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Award className="text-white" size={24} />
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-2">Career Growth</h3>
-              <p className="text-gray-600">
+              <p className="text-gray-700">
                 Build your portfolio, network with professionals, and gain the skills needed for a successful tech career.
               </p>
             </div>
@@ -228,8 +228,8 @@ function App() {
           </div> */}
 
           <div className="text-center">
-            <div className="bg-[#fff9e8] rounded-2xl shadow-lg p-8 max-w-md mx-auto">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Apply?</h3>
+            <div className="bg-orange-50 rounded-2xl shadow-lg p-8 max-w-md mx-auto">
+              <h3 className="text-2xl font-bold bg-gradient-to-r from-red-600 to-orange-400 bg-clip-text text-transparent mb-4">Ready to Apply?</h3>
               <p className="text-gray-600 mb-6">
                 Join our next cohort and start your journey in tech innovation.
               </p>
@@ -242,7 +242,7 @@ function App() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 bg-orange-50">
+      <section id="projects" className="py-20 bg-orange-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-red-600 mb-4">Featured Projects</h2>
