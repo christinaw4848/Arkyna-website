@@ -51,7 +51,7 @@ function App() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
               <img src="/new_arkyna_logo.png" alt="Arkyna" className="h-8 w-auto" />
-              <span className="text-xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
+              <span className="arkyna-font text-xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
                 ARKYNA
               </span>
             </div>
@@ -123,7 +123,7 @@ function App() {
                 alt="Arkyna" 
                 className="h-36 sm:h-44 md:h-52 lg:h-60 xl:h-64 w-auto mx-auto mb-8 drop-shadow-2xl" 
               />
-                <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-orange-300 to-red-700 animate-gradient bg-clip-text text-transparent mb-4">
+                <h1 className="arkyna-font text-5xl md:text-7xl font-bold bg-gradient-to-r from-orange-300 to-red-700 bg-clip-text text-transparent mb-4">
                 ARKYNA
                 </h1>
               <p className="text-xl md:text-2xl text-orange-200 font-light tracking-wide">
@@ -354,10 +354,10 @@ function App() {
             <div className="flex items-center space-x-3 mb-4 md:mb-0">
               <img src="/new_arkyna_logo.png" alt="Arkyna" className="h-8 w-auto" />
               <div>
-                <div className="text-xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
+                <div className="arkyna-font text-xl font-bold bg-gradient-to-r from-orange-400 to-red-500 bg-clip-text text-transparent">
                   ARKYNA
                 </div>
-                <div className="text-sm text-gray-400">Bringing Generations Closer</div>
+                <div className="text-sm text-orange-200">Bringing Generations Closer</div>
               </div>
             </div>
             
