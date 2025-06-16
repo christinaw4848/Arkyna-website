@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, ChevronRight, Users, Target, Award, Mail, Phone, Linkedin, Github, ExternalLink } from 'lucide-react';
+import { Menu, X, ChevronRight, Users, Target, Award, Mail, Phone, Linkedin, Github, ExternalLink, ArrowUp } from 'lucide-react';
 import TeamCarousel from "./components/TeamCarousel";
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,8 +26,13 @@ function App() {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    const onScroll = () => {
+      handleScroll();
+      setShowBackToTop(window.scrollY > 200);
+    };
+
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   const scrollToSection = (sectionId: string) => {
@@ -117,7 +123,7 @@ function App() {
                 alt="Arkyna" 
                 className="h-32 sm:h-36 md:h-40 lg:h-44 xl:h-48 w-auto mx-auto mb-8 drop-shadow-2xl" 
               />
-                <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-orange-300 to-red-700 bg-clip-text text-transparent mb-4">
+                <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-orange-300 to-red-700 animate-gradient bg-clip-text text-transparent mb-4">
                 ARKYNA
                 </h1>
               <p className="text-xl md:text-2xl text-orange-200 font-light tracking-wide">
@@ -163,7 +169,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-red-600 mb-4">Summer Incubator Program</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto">
               Empowering the next generation of innovators through comprehensive mentorship and hands-on experience.
             </p>
           </div>
@@ -242,11 +248,11 @@ function App() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="py-20 bg-orange-100">
+      <section id="projects" className="py-20 bg-orange-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-red-600 mb-4">Featured Projects</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-700 max-w-3xl mx-auto">
               Innovative solutions developed by our talented participants:
             </p>
           </div>
@@ -254,7 +260,7 @@ function App() {
           <div className="grid md:grid-cols-2 gap-8">
             {/* mobilePOS Project */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
+              <div className="h-48 bg-gradient-to-br from-green-500 to-blue-600 animate-gradient flex items-center justify-center">
                 <div className="text-white text-5xl font-bold">mobilePOS</div>
               </div>
               <div className="p-8">
@@ -295,7 +301,7 @@ function App() {
 
             {/* CompanionAI Project */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="h-48 bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center">
+              <div className="h-48 bg-gradient-to-br from-purple-700 to-pink-500 animate-gradient flex items-center justify-center">
                 <div className="text-white text-5xl font-bold">CompanionAI</div>
               </div>
               <div className="p-8">
@@ -337,7 +343,9 @@ function App() {
       </section>
 
       {/* Team Section */}
-      <TeamCarousel />
+
+      <TeamCarousel /> 
+
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-12">
@@ -371,6 +379,17 @@ function App() {
           </div>
         </div>
       </footer>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-6 right-6 z-50 bg-gray-800 border border-red-400 shadow-xl rounded-full p-3 hover:bg-orange-100 transition-colors"
+          aria-label="Back to Top"
+        >
+          <ArrowUp className="w-6 h-6 text-red-500" />
+        </button>
+      )}
     </div>
   );
 }

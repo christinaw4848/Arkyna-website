@@ -74,7 +74,8 @@ export default function TeamCarousel() {
     };
 
     return (
-        <div className="flex flex-col items-center w-full bg-[#fafafa] py-8">
+        <section id="team" className="py-20 w-full bg-[#fafafa]">
+        <div className="flex flex-col items-center w-full bg-[#fafafa]">
             {/* Override slick arrow color for visibility */}
             <style>{`
         .slick-prev:before, .slick-next:before {
@@ -112,7 +113,7 @@ export default function TeamCarousel() {
             <h2 className="text-4xl font-bold text-red-600 text-center mt-8 mb-2">
                 Our Team
             </h2>
-            <p className="text-lg text-gray-600 text-center mb-8">
+            <p className="text-lg text-gray-700 text-center mb-8">
                 Meet the passionate individuals driving innovation at Arkyna:
             </p>
             <div className="w-full max-w-6xl">
@@ -178,5 +179,6 @@ export default function TeamCarousel() {
             {/* Add gap below the carousel section */}
             <div className="mb-16"></div>
         </div>
+        </section>
     );
 }
