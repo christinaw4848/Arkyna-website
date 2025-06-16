@@ -50,7 +50,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <img src="/arkyna_logo.png" alt="Arkyna" className="h-8 w-auto" />
+              <img src="/new_arkyna_logo.png" alt="Arkyna" className="h-8 w-auto" />
               <span className="text-xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
                 ARKYNA
               </span>
@@ -119,9 +119,9 @@ function App() {
           <div className="text-center">
             <div className="mb-8">
               <img 
-                src="/arkyna_logo.png" 
+                src="/new_arkyna_logo.png" 
                 alt="Arkyna" 
-                className="h-32 sm:h-36 md:h-40 lg:h-44 xl:h-48 w-auto mx-auto mb-8 drop-shadow-2xl" 
+                className="h-36 sm:h-44 md:h-52 lg:h-60 xl:h-64 w-auto mx-auto mb-8 drop-shadow-2xl" 
               />
                 <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-orange-300 to-red-700 animate-gradient bg-clip-text text-transparent mb-4">
                 ARKYNA
@@ -352,7 +352,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div className="flex items-center space-x-3 mb-4 md:mb-0">
-              <img src="/arkyna_logo.png" alt="Arkyna" className="h-8 w-auto" />
+              <img src="/new_arkyna_logo.png" alt="Arkyna" className="h-8 w-auto" />
               <div>
                 <div className="text-xl font-bold bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
                   ARKYNA
