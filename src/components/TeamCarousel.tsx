@@ -93,6 +93,14 @@ export default function TeamCarousel() {
         .slick-next {
           right: -75px !important;
         }
+        @media (max-width: 900px) {
+          .slick-prev {
+            left: 0px !important;
+          }
+          .slick-next {
+            right: 0px !important;
+          }
+        }
         /* Fix for cut-off tiles */
         .slick-slide > div {
           height: 100% !important;
@@ -116,12 +124,12 @@ export default function TeamCarousel() {
             <p className="text-lg text-gray-700 text-center mb-8">
                 Meet the passionate individuals driving innovation at Arkyna:
             </p>
-            <div className="w-full max-w-6xl">
+            <div className="w-full max-w-6xl px-0 sm:px-0">
                 <Slider {...settings}>
                     {teamMembers.map((member, idx) => (
                         <div key={idx} className="flex justify-center h-full overflow-visible">
                             <div
-                                className="bg-red-200 rounded-3xl p-8 text-center w-[350px] flex flex-col items-center shadow-md h-auto overflow-visible"
+                                className="bg-red-200 rounded-3xl p-8 text-center w-[90vw] max-w-xs sm:w-[350px] mx-auto flex flex-col items-center shadow-md h-auto overflow-visible"
                             >
                                 <div
                                     className="w-24 h-24 rounded-full mb-4 flex items-center justify-center text-3xl font-bold text-white"
