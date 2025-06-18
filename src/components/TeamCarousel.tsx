@@ -8,7 +8,7 @@ const teamMembers = [
         name: "Member 1",
         role: "Role 1",
         desc: "Description 1.",
-        expertise: ["Leadership", "Strategy", "Full-Stack"],
+        expertise: ["1", "2", "3"],
         email: "mailto:member1@email.com",
         linkedin: "https://linkedin.com/in/member1",
     },
