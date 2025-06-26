@@ -260,7 +260,7 @@ function App() {
           <div className="grid md:grid-cols-2 gap-8">
             {/* mobilePOS Project */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="h-48 bg-gradient-to-br from-green-500 to-blue-600 animate-gradient flex items-center justify-center">
+              <div className="h-48 bg-gradient-to-br from-pink-500 to-blue-600 animate-gradient flex items-center justify-center">
                 <div className="text-white text-5xl font-bold">mobilePOS</div>
               </div>
               <div className="p-8">
@@ -301,8 +301,12 @@ function App() {
 
             {/* CompanionAI Project */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <div className="h-48 bg-gradient-to-br from-purple-700 to-pink-500 animate-gradient flex items-center justify-center">
-                <div className="text-white text-5xl font-bold">CompanionAI</div>
+              <div className="h-48 bg-gradient-to-br from-teal-400 to-blue-600 animate-gradient">
+                <img 
+                  src="/cai_logo.png" 
+                  alt="CompanionAI" 
+                  className="w-full h-full object-cover" 
+                />
               </div>
               <div className="p-8">
                 <h3 className="text-2xl font-bold text-gray-900 mb-3">CompanionAI</h3>
@@ -311,30 +315,20 @@ function App() {
                   This innovative AI solution helps bridge generational gaps by creating meaningful connections 
                   through advanced conversational AI technology.
                 </p>
-                {/* <div className="mb-4">
-                  <h4 className="font-semibold text-gray-900 mb-2">Technologies Used:</h4>
-                  <div className="flex flex-wrap gap-2">
-                    <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">React</span>
-                    <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Node.js</span>
-                    <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">OpenAI API</span>
-                    <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">Speech API</span>
-                  </div>
-                </div>
-                <div className="mb-6">
-                  <h4 className="font-semibold text-gray-900 mb-2">Key Features:</h4>
-                  <ul className="text-gray-600 text-sm space-y-1">
-                    <li>• Voice and text conversation support</li>
-                    <li>• Personalized AI companions</li>
-                    <li>• Natural language processing</li>
-                    <li>• Cross-generational communication</li>
-                    <li>• Emotional intelligence integration</li>
-                  </ul>
-                </div> */}
                 <div className="flex space-x-3">
+                  <a href="https://github.com/leekycauldron/conversation-ai-RTK" target = "_blank">
+                  <button className="flex items-center text-orange-500 hover:text-orange-600 transition-colors">
+                    <Github size={16} className="mr-1" />
+                    GitHub
+                  </button>
+                  </a>
+                  <span className="w-2" />
+                  <a href = "https://elevenlabs.io/app/talk-to?agent_id=agent_01jwy64nsvfzk9knw437z43wzg" target = "_blank">
                   <button className="flex items-center text-orange-500 hover:text-orange-600 transition-colors">
                     <ExternalLink size={16} className="mr-1" />
-                    Learn More
+                    Talk to a Companion
                   </button>
+                  </a>
                 </div>
               </div>
             </div>
