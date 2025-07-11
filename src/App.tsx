@@ -6,6 +6,7 @@ function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [showElevenLabs, setShowElevenLabs] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,6 +43,47 @@ function App() {
     }
     setIsMenuOpen(false);
   };
+
+  // Adjusts widget visibility based on CompanionAI visibility
+  useEffect(() => {
+    const handleScroll = () => {
+      const companionAI = document.getElementById('companionai-project');
+      if (companionAI) {
+        const rect = companionAI.getBoundingClientRect();
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        setShowElevenLabs(isVisible);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Load/unload the ElevenLabs widget script
+  useEffect(() => {
+    const scriptId = 'elevenlabs-convai-embed';
+    if (showElevenLabs) {
+      if (!document.getElementById(scriptId)) {
+        const script = document.createElement('script');
+        script.id = scriptId;
+        script.src = 'https://unpkg.com/@elevenlabs/convai-widget-embed';
+        script.async = true;
+        script.type = 'text/javascript';
+        document.body.appendChild(script);
+      }
+      // Add the custom element if not present
+      if (!document.querySelector('elevenlabs-convai')) {
+        const el = document.createElement('elevenlabs-convai');
+        el.setAttribute('agent-id', 'agent_01jx2q35w9ew1bqtgh98y060z8');
+        document.body.appendChild(el);
+      }
+    } else {
+      const script = document.getElementById(scriptId);
+      if (script) script.remove();
+      const widget = document.querySelector('elevenlabs-convai');
+      if (widget) widget.remove();
+    }
+  }, [showElevenLabs]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -300,7 +342,7 @@ function App() {
             </div>
 
             {/* CompanionAI Project */}
-            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+            <div id="companionai-project" className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <div className="h-48 bg-gradient-to-br from-teal-400 to-blue-600 animate-gradient">
                 <img 
                   src="/cai_logo.png" 
@@ -323,13 +365,8 @@ function App() {
                   </button>
                   </a>
                   <span className="w-2" />
-                  <a href = "https://elevenlabs.io/app/talk-to?agent_id=agent_01jwy64nsvfzk9knw437z43wzg" target = "_blank">
-                  <button className="flex items-center text-orange-500 hover:text-orange-600 transition-colors">
-                    <ExternalLink size={16} className="mr-1" />
-                    Talk to a Companion
-                  </button>
-                  </a>
                 </div>
+                {/* Floating widget will be conditionally loaded below */}
               </div>
             </div>
           </div>
