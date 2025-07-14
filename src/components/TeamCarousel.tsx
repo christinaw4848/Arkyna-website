@@ -4,58 +4,45 @@ import Slider from "react-slick";
 import { Mail, Linkedin } from "lucide-react";
 
 const teamMembers = [
+    // {
+    //     name: "Adrian lee-Kwen",
+    //     role: "Role 1",
+    //     desc: "Description 1.",
+    //     email: "mailto:member1@email.com",
+    //     linkedin: "https://linkedin.com/in/member1",
+    // },
     {
-        name: "Member 1",
-        role: "Role 1",
-        desc: "Description 1.",
-        expertise: ["1", "2", "3"],
-        email: "mailto:member1@email.com",
-        linkedin: "https://linkedin.com/in/member1",
+        name: "Aaron Surty",
+        role: "Advisor",
+        desc: " A software developer with interest in net positive technology.",
+        //email: "mailto:member2@email.com",
+        linkedin: "https://www.linkedin.com/in/aaron-surty/",
+        img: "/team/aaron_surty.jpg",
     },
     {
-        name: "Member 2",
-        role: "Role 2",
-        desc: "Description 2.",
-        expertise: ["1", "2", "3"],
-        email: "mailto:member2@email.com",
-        linkedin: "https://linkedin.com/in/member2",
-    },
-    {
-        name: "Member 3",
+        name: "Bryson Lee-Kwen",
         role: "Role 3",
         desc: "Description 3.",
-        expertise: ["1", "2"],
-        email: "mailto:member3@email.com",
+        //email: "mailto:member3@email.com",
         linkedin: "https://linkedin.com/in/member3",
     },
     {
-        name: "Member 4",
+        name: "Steven Guan",
         role: "Role 4",
         desc: "Description 4.",
-        expertise: ["1", "2"],
-        email: "mailto:member4@email.com",
+        //email: "mailto:member4@email.com",
         linkedin: "https://linkedin.com/in/member4",
     },
     {
-        name: "Member 5",
-        role: "Role 5",
-        desc: "Description 5.",
-        expertise: ["1", "2"],
-        email: "mailto:member5@email.com",
-        linkedin: "https://linkedin.com/in/member5",
+        name: "Christina Wong",
+        role: "Intern Developer",
+        desc: "A university student pursuing an honours specialization in computer science.",
+        //email: "mailto:member5@email.com",
+        linkedin: "https://www.linkedin.com/in/wong-christina/",
+        img: "/team/christina_wong.png",
     },
 ];
 
-const expertiseColors = [
-    "bg-purple-100 text-purple-700", // pastel purple
-
-    "bg-blue-100 text-blue-700", // pastel blue
-    "bg-green-100 text-green-700", // pastel green
-    "bg-orange-100 text-[#a8431a]", // pastel orange
-    "bg-pink-100 text-pink-600", // pastel pink
-
-    "bg-yellow-100 text-yellow-700", // pastel yellow
-];
 
 export default function TeamCarousel() {
     const settings = {
@@ -127,49 +114,45 @@ export default function TeamCarousel() {
             <div className="w-full max-w-6xl px-0 sm:px-0">
                 <Slider {...settings}>
                     {teamMembers.map((member, idx) => (
-                        <div key={idx} className="flex justify-center h-full overflow-visible">
+                        <div key={idx} className="flex justify-center h-full items-stretch overflow-visible">
                             <div
-                                className="bg-red-200 rounded-3xl p-8 text-center w-[90vw] max-w-xs sm:w-[350px] mx-auto flex flex-col items-center shadow-md h-auto overflow-visible"
+                                className="bg-red-200 rounded-3xl py-8 px-2 text-center w-[90vw] max-w-xs sm:w-[350px] mx-auto flex flex-col items-center shadow-md h-full min-h-[0px] overflow-visible"
                             >
-                                <div
-                                    className="w-24 h-24 rounded-full mb-4 flex items-center justify-center text-3xl font-bold text-white"
-                                    style={{
-                                        background:
-                                            "linear-gradient(135deg, #f7971e 0%, #ffd200 100%)",
-                                    }}
-                                >
-                                    {idx + 1}
-                                </div>
+                                {member.img ? (
+                                    <img
+                                        src={member.img}
+                                        alt={member.name}
+                                        className="w-24 h-24 rounded-full mb-4 object-cover border-4 border-white shadow"
+                                    />
+                                ) : (
+                                    <div
+                                        className="w-24 h-24 rounded-full mb-4 flex items-center justify-center text-3xl font-bold text-white"
+                                        style={{
+                                            background:
+                                                "linear-gradient(135deg, #f7971e 0%, #ffd200 100%)",
+                                        }}
+                                    >
+                                        {idx + 1}
+                                    </div>
+                                )}
                                 <h3 className="font-bold text-2xl mb-1">
                                     {member.name}
                                 </h3>
                                 <div className="text-orange-600 mb-2 font-semibold">
                                     {member.role}
                                 </div>
-                                <div className="mb-3 text-gray-700">{member.desc}</div>
-                                <div className="mb-2 font-bold text-left w-full">
-                                    Expertise:
-                                </div>
-                                <div className="flex flex-wrap gap-2 mb-4 w-full justify-center">
-                                    {member.expertise.map((exp, i) => (
-                                        <span
-                                            key={i}
-                                            className={`rounded-md px-3 py-1 text-xs font-medium ${expertiseColors[i % expertiseColors.length]}`}
-                                        >
-                                            {exp}
-                                        </span>
-                                    ))}
-                                </div>
+                                <div className="mb-1 text-gray-700 px-1">{member.desc}</div>
+
                                 {/* Add icons or links here if needed */}
                                 <div className="flex gap-4 mt-2">
-                                    <a
+                                    {/* <a
                                         href={member.email}
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         aria-label="Email"
                                     >
                                         <Mail className="w-6 h-6 text-[#c0392b] hover:text-[#f7971e] transition-colors" />
-                                    </a>
+                                    </a> */}
                                     <a
                                         href={member.linkedin}
                                         target="_blank"
