@@ -369,6 +369,44 @@ function App() {
                 {/* Floating widget will be conditionally loaded below */}
               </div>
             </div>
+            {/* Financial Projections Project */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="h-48 bg-gradient-to-br from-yellow-400 to-green-500 animate-gradient flex items-center justify-center">
+                <div className="text-white text-5xl font-bold">Financial Projections</div>
+              </div>
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">Financial Projections</h3>
+                <p className="text-gray-600 mb-4">
+                  An interactive web app for forecasting and visualizing financial data. Designed for our projections but adaptable to other projects. Easily create, adjust, and share financial projections for your projects or business ideas.
+                </p>
+                <div className="mb-4">
+                  <h4 className="font-semibold text-gray-900 mb-2">Technologies Used:</h4>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">JavaScript</span>
+                    <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">HTML</span>
+                    <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Chart.js</span>
+                    <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">jsPDF</span>
+                  </div>
+                </div>
+                <div className="mb-6">
+                  <h4 className="font-semibold text-gray-900 mb-2">Key Features:</h4>
+                  <ul className="text-gray-600 text-sm space-y-1">
+                    <li>• Dynamic financial forecasting</li>
+                    <li>• Interactive charts and graphs</li>
+                    <li>• Scenario planning</li>
+                    <li>• Export projections as a PDF</li>
+                  </ul>
+                </div>
+                <div className="flex space-x-3">
+                  <a href="https://cai-finance.netlify.app/" target="_blank">
+                    <button className="flex items-center text-orange-500 hover:text-orange-600 transition-colors">
+                      <ExternalLink size={16} className="mr-1" />
+                      Live App
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

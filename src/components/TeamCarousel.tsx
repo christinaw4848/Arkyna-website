@@ -35,7 +35,7 @@ const teamMembers = [
     },
     {
         name: "Christina Wong",
-        role: "Intern Developer",
+        role: "Developer Intern",
         desc: "A university student pursuing an honours specialization in computer science.",
         //email: "mailto:member5@email.com",
         linkedin: "https://www.linkedin.com/in/wong-christina/",
