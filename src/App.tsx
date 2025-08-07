@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, useNavigate, useLocation } from 'react-router-dom';
+import ApplyPage from './ApplyPage';
 import { Menu, X, ChevronRight, Users, Target, Award, Mail, Phone, Linkedin, Github, ExternalLink, ArrowUp } from 'lucide-react';
 import TeamCarousel from "./components/TeamCarousel";
 
-function App() {
+function MainApp() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('about');
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [showElevenLabs, setShowElevenLabs] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -44,20 +47,22 @@ function App() {
     setIsMenuOpen(false);
   };
 
-  // Adjusts widget visibility based on CompanionAI visibility
+  // Adjusts widget visibility based on CompanionAI visibility and route changes
   useEffect(() => {
-    const handleScroll = () => {
+    const handleScrollOrRoute = () => {
       const companionAI = document.getElementById('companionai-project');
       if (companionAI) {
         const rect = companionAI.getBoundingClientRect();
         const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
         setShowElevenLabs(isVisible);
+      } else {
+        setShowElevenLabs(false);
       }
     };
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    window.addEventListener('scroll', handleScrollOrRoute);
+    handleScrollOrRoute();
+    return () => window.removeEventListener('scroll', handleScrollOrRoute);
+  }, [location]);
 
   // Load/unload the ElevenLabs widget script
   useEffect(() => {
@@ -83,8 +88,16 @@ function App() {
       const widget = document.querySelector('elevenlabs-convai');
       if (widget) widget.remove();
     }
+    // Cleanup on unmount: always remove widget and script
+    return () => {
+      const script = document.getElementById(scriptId);
+      if (script) script.remove();
+      const widget = document.querySelector('elevenlabs-convai');
+      if (widget) widget.remove();
+    };
   }, [showElevenLabs]);
 
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
@@ -281,7 +294,10 @@ function App() {
               <p className="text-gray-600 mb-6">
                 Join our next cohort and start your journey in tech innovation.
               </p>
-              <button className="w-full bg-gradient-to-r from-red-600 to-orange-400 animate-gradient text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200">
+              <button
+                className="w-full bg-gradient-to-r from-red-600 to-orange-400 animate-gradient text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+                onClick={() => navigate('/apply')}
+              >
                 Apply Now
               </button>
             </div>
@@ -401,7 +417,7 @@ function App() {
                   <a href="https://cai-finance.netlify.app/" target="_blank">
                     <button className="flex items-center text-orange-500 hover:text-orange-600 transition-colors">
                       <ExternalLink size={16} className="mr-1" />
-                      Live App
+                      App Demo
                     </button>
                   </a>
                 </div>
@@ -460,6 +476,17 @@ function App() {
         </button>
       )}
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<MainApp />} />
+        <Route path="/apply" element={<ApplyPage />} />
+      </Routes>
+    </Router>
   );
 }
 
