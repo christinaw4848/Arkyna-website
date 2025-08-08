@@ -28,10 +28,11 @@ const teamMembers = [
     },
     {
         name: "Steven Guan",
-        role: "Role 4",
-        desc: "Description 4.",
+        role: "Developer Intern",
+        desc: "Post-secondary student developer passionate about building new ideas and bringing them to life.",
         //email: "mailto:member4@email.com",
-        linkedin: "https://linkedin.com/in/member4",
+        linkedin: "https://www.linkedin.com/in/steven-guan-126395293/",
+        img: "/team/steven_guan.jpg",
     },
     {
         name: "Christina Wong",
