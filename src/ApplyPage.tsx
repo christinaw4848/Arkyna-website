@@ -18,10 +18,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { Upload, Link, X, CheckCircle, AlertCircle } from 'lucide-react';
-import { validateForm } from './components/validation.tsx';
+import { validateForm } from './components/validation.ts';
 import type { PreliminaryData } from './types';
 interface PreliminaryFormProps {
-  onSubmit: (data: PreliminaryData) => void;
+  onSubmit: (data: PreliminaryData) => Promise<void>;
 }
 
 export const PreliminaryForm: React.FC<PreliminaryFormProps> = ({ onSubmit }) => {
@@ -99,8 +99,17 @@ export const PreliminaryForm: React.FC<PreliminaryFormProps> = ({ onSubmit }) =>
       projectLinks: formData.projectLinks.filter(link => link.trim())
     };
 
-    onSubmit(preliminaryData);
-    setIsSubmitting(false);
+    try {
+      await onSubmit(preliminaryData);       // <-- await the API call from parent
+    // (Optional) show a success message, redirect, clear form, etc.
+    // alert("Application submitted!");
+    } catch (err: any) {
+    // (Optional) display a friendly error to the user
+    // alert(err?.message || "Something went wrong.");
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -278,7 +287,7 @@ export const PreliminaryForm: React.FC<PreliminaryFormProps> = ({ onSubmit }) =>
                     className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all ${
                       errors[`projectLink${index}`] ? 'border-red-300' : 'border-gray-200'
                     }`}
-                    placeholder="https://github.com/your-project"
+                    placeholder="https://github.com/user/your-project"
                   />
                   {errors[`projectLink${index}`] && (
                     <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
@@ -330,18 +339,95 @@ export const PreliminaryForm: React.FC<PreliminaryFormProps> = ({ onSubmit }) =>
 };
 
 
+
 function ApplyPage() {
+  const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, []);
 
-  // Handle form submission (you can customize this as needed)
-  const handlePreliminarySubmit = (data: PreliminaryData) => {
-    // For now, just log the data. You can add more logic here.
-    console.log('Submitted preliminary data:', data);
+
+  const handlePreliminarySubmit = async (data: PreliminaryData) => {
+    setSubmitError(null);
+    // Build multipart/form-data for the backend
+    const formData = new FormData();
+    formData.append("name", data.name);
+    if (data.age !== undefined && data.age !== null && String(data.age).trim() !== "") {
+      formData.append("age", String(data.age));
+    }
+    formData.append("email", data.email);
+    formData.append("school", data.school);
+
+    // Your backend accepts url_links either as CSV or repeated fields.
+    // CSV (simple):
+    const links = (data.projectLinks ?? []).filter(l => l && l.trim().length > 0);
+    if (links.length > 0) {
+      formData.append("url_links", links.join(","));
+      // OR, as multiple fields (backend supports both):
+      // links.forEach(l => formData.append("url_links", l));
+    }
+
+    if (data.resume) {
+      formData.append("resume", data.resume); // name must be "resume" to match multer.single("resume")
+    }
+
+    console.log("Submitting application...");
+    try {
+      const resp = await fetch("http://localhost:4000/api/applications", {
+        method: "POST",
+        body: formData,
+      });
+
+      console.log("Fetch completed", resp);
+      if (!resp.ok) {
+        // Surface server validation or generic error
+        let msg = `Request failed with ${resp.status}`;
+        try {
+          const j = await resp.json();
+          msg = j?.error || msg;
+        } catch {}
+        setSubmitError(msg);
+        throw new Error(msg);
+      }
+
+      // (Optional) you can read the created ID:
+      // const json = await resp.json();
+      // console.log("Created application ID:", json.id);
+
+      console.log("Setting submitted to true");
+      setSubmitted(true);
+    } catch (err: any) {
+      setSubmitError(err?.message || "Something went wrong.");
+      console.error("Submission error:", err);
+    }
   };
 
-  return <PreliminaryForm onSubmit={handlePreliminarySubmit} />;
+  if (submitted) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-orange-50">
+        <div className="bg-white rounded-2xl shadow-xl p-10 max-w-lg w-full text-center">
+          <h1 className="text-3xl font-bold text-red-600 mb-4">Application Submitted!</h1>
+          <p className="text-gray-700 mb-6">
+            Thank you for applying to Arkyna. We have received your application and will be in touch soon.<br />
+            (This is a placeholder page.)
+          </p>
+          <a href="/" className="inline-block mt-4 px-6 py-2 bg-gradient-to-r from-orange-400 to-red-500 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200">Back to Home</a>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      {submitError && (
+        <div className="max-w-xl mx-auto my-4 p-4 bg-red-100 text-red-700 rounded-xl text-center">
+          <strong>Error:</strong> {submitError}
+        </div>
+      )}
+      <PreliminaryForm onSubmit={handlePreliminarySubmit} />
+    </>
+  );
 }
 
 export default ApplyPage;
