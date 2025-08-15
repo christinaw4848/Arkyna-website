@@ -53,7 +53,9 @@ router.get("/", async (_req, res) => {
   res.json(rows);
 });
 
-// (Optional) GET /api/applications/:id/resume (download the stored file)
+// GET /api/applications/:id/resume (download the stored file)
+// In browser, go to following link (replace 123 with the id of the application): http://localhost:4000/api/applications/123/resume
+
 router.get("/:id/resume", async (req, res) => {
   const id = Number(req.params.id);
   const row = await prisma.application.findUnique({ where: { id } });

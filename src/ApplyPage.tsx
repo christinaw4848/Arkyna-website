@@ -17,6 +17,7 @@
 // export default ApplyPage;
 
 import React, { useState, useEffect } from 'react';
+import InterviewPage from './InterviewPage';
 import { Upload, Link, X, CheckCircle, AlertCircle } from 'lucide-react';
 import { validateForm } from './components/validation.ts';
 import type { PreliminaryData } from './types';
@@ -35,6 +36,7 @@ export const PreliminaryForm: React.FC<PreliminaryFormProps> = ({ onSubmit }) =>
   const [resume, setResume] = useState<File | null>(null);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -78,34 +80,31 @@ export const PreliminaryForm: React.FC<PreliminaryFormProps> = ({ onSubmit }) =>
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Show confirmation modal instead of submitting directly
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
     const { isValid, errors: validationErrors } = validateForm(formData);
-    
     if (!isValid) {
       setErrors(validationErrors);
-      setIsSubmitting(false);
       return;
     }
+    setShowConfirm(true);
+  };
 
+  // Actually submit after confirmation
+  const handleConfirmSubmit = async () => {
+    setIsSubmitting(true);
+    setShowConfirm(false);
     // Simulate processing time
     await new Promise(resolve => setTimeout(resolve, 1500));
-
     const preliminaryData: PreliminaryData = {
       ...formData,
       resume: resume || undefined,
       projectLinks: formData.projectLinks.filter(link => link.trim())
     };
-
     try {
-      await onSubmit(preliminaryData);       // <-- await the API call from parent
-    // (Optional) show a success message, redirect, clear form, etc.
-    // alert("Application submitted!");
+      await onSubmit(preliminaryData);
     } catch (err: any) {
-    // (Optional) display a friendly error to the user
-    // alert(err?.message || "Something went wrong.");
       console.error(err);
     } finally {
       setIsSubmitting(false);
@@ -171,7 +170,7 @@ export const PreliminaryForm: React.FC<PreliminaryFormProps> = ({ onSubmit }) =>
                 errors.age ? 'border-red-300' : 'border-gray-200'
               }`}
               placeholder="Enter your age"
-              min="16"
+              min="18"
               max="100"
             />
             {errors.age && (
@@ -333,6 +332,36 @@ export const PreliminaryForm: React.FC<PreliminaryFormProps> = ({ onSubmit }) =>
             )}
           </button>
         </form>
+
+        {/* Confirmation Modal */}
+        {showConfirm && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+            <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center relative">
+              <h2 className="text-2xl font-bold text-red-600 mb-4">Confirm Submission</h2>
+              <p className="text-gray-700 mb-6">
+                Submitting your information will proceed you to the next part of the interview, which will be answering a few short questions.<br />
+                Please only submit when you're ready to complete the question portion.
+              </p>
+              <div className="flex justify-center gap-4 mt-6">
+                <button
+                  type="button"
+                  className="px-6 py-2 rounded-xl bg-gray-200 text-gray-700 font-semibold hover:bg-gray-300 transition-all"
+                  onClick={() => setShowConfirm(false)}
+                >
+                  Back
+                </button>
+                <button
+                  type="button"
+                  className="px-6 py-2 rounded-xl bg-gradient-to-r from-orange-400 to-red-500 text-white font-semibold hover:from-orange-500 hover:to-red-600 transition-all"
+                  onClick={handleConfirmSubmit}
+                  disabled={isSubmitting}
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -404,18 +433,7 @@ function ApplyPage() {
   };
 
   if (submitted) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-orange-50">
-        <div className="bg-white rounded-2xl shadow-xl p-10 max-w-lg w-full text-center">
-          <h1 className="text-3xl font-bold text-red-600 mb-4">Application Submitted!</h1>
-          <p className="text-gray-700 mb-6">
-            Thank you for applying to Arkyna. We have received your application and will be in touch soon.<br />
-            (This is a placeholder page.)
-          </p>
-          <a href="/" className="inline-block mt-4 px-6 py-2 bg-gradient-to-r from-orange-400 to-red-500 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200">Back to Home</a>
-        </div>
-      </div>
-    );
+    return <InterviewPage />;
   }
 
   return (
