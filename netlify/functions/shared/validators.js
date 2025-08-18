@@ -1,14 +1,13 @@
-import { z } from "zod";
+const { z } = require("zod");
 
-export const applicationSchema = z.object({
+const applicationSchema = z.object({
   name: z.string().min(1),
   age: z.preprocess(
     (v) => (v === "" || v === undefined ? undefined : Number(v)),
     z.number().int().min(0).max(150).optional()
   ),
-  email: z.email(),
+  email: z.string().email(),
   school: z.string().min(1),
-  // url_links may come as a CSV string or array; normalize to array of strings
   url_links: z
     .union([
       z.string().transform((s) =>
@@ -19,3 +18,5 @@ export const applicationSchema = z.object({
     .optional()
     .transform((v) => v ?? []),
 });
+
+module.exports = { applicationSchema };
