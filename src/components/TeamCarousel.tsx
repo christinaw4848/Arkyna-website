@@ -21,10 +21,11 @@ const teamMembers = [
     },
     {
         name: "Bryson Lee-Kwen",
-        role: "Role 3",
-        desc: "Description 3.",
+        role: "Technology & Business Intern",
+        desc: "A university student interested in combining innovative technology solutions with business.",
         //email: "mailto:member3@email.com",
-        linkedin: "https://linkedin.com/in/member3",
+        linkedin: "https://linkedin.com/in/bryson-leekwen",
+        img: "/team/bryson_lk.jpg",
     },
     {
         name: "Steven Guan",
