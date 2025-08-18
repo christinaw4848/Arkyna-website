@@ -7,7 +7,9 @@ import applicationsRouter from "./routes/applications";
 
 const app = express();
 
-const allowedOrigin = process.env.ALLOWED_ORIGIN || "*";
+const allowedOrigin = process.env.ALLOWED_ORIGIN
+  ? JSON.parse(process.env.ALLOWED_ORIGIN)
+  : "*";
 app.use(cors({ origin: allowedOrigin }));
 app.use(helmet());
 app.use(morgan("dev"));
