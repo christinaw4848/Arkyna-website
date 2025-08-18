@@ -403,7 +403,12 @@ function ApplyPage() {
 
     console.log("Submitting application...");
     try {
-      const resp = await fetch("http://localhost:4000/api/applications", {
+      // Use local Express backend in development, Netlify Function in production
+      const apiUrl =
+        window.location.hostname === "localhost"
+          ? "http://localhost:4000/api/applications"
+          : "/.netlify/functions/applications";
+      const resp = await fetch(apiUrl, {
         method: "POST",
         body: formData,
       });
