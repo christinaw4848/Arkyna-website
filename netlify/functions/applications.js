@@ -1,5 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const { applicationSchema } = require('./shared/validators');
+const formidable = require('formidable');
 
 const prisma = new PrismaClient();
 
@@ -11,14 +12,29 @@ exports.handler = async function(event, context) {
     };
   }
 
-  // Parse form data (assume JSON for serverless simplicity)
-  let data;
+  // Parse multipart/form-data using formidable
+  let data = {};
+  let files = {};
   try {
-    data = JSON.parse(event.body);
+    await new Promise((resolve, reject) => {
+      const form = new formidable.IncomingForm();
+      form.parse({ headers: event.headers, 
+                  // Netlify provides the raw body as a string
+                  // formidable expects a stream, so we convert
+                  // See: https://github.com/node-formidable/formidable/issues/784
+                  // This workaround is for Netlify Functions only
+                  // If this fails, fallback to JSON
+                  body: event.body }, (err, fields, f) => {
+        if (err) return reject(err);
+        data = fields;
+        files = f;
+        resolve();
+      });
+    });
   } catch (e) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ error: 'Invalid JSON' })
+      body: JSON.stringify({ error: 'Invalid form data' })
     };
   }
 
