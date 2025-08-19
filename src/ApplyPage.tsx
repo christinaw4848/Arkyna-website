@@ -379,43 +379,25 @@ function ApplyPage() {
 
   const handlePreliminarySubmit = async (data: PreliminaryData) => {
     setSubmitError(null);
-    // Build multipart/form-data for the backend
-    const formData = new FormData();
-    formData.append("name", data.name);
-    if (data.age !== undefined && data.age !== null && String(data.age).trim() !== "") {
-      formData.append("age", String(data.age));
-    }
-    formData.append("email", data.email);
-    formData.append("school", data.school);
-
-    // Your backend accepts url_links either as CSV or repeated fields.
-    // CSV (simple):
-    const links = (data.projectLinks ?? []).filter(l => l && l.trim().length > 0);
-    if (links.length > 0) {
-      formData.append("url_links", links.join(","));
-      // OR, as multiple fields (backend supports both):
-      // links.forEach(l => formData.append("url_links", l));
-    }
-
-    if (data.resume) {
-      formData.append("resume", data.resume); // name must be "resume" to match multer.single("resume")
-    }
-
-    console.log("Submitting application...");
+    // 1. Submit application data (without resume)
+    const appData = {
+      name: data.name,
+      age: data.age,
+      email: data.email,
+      school: data.school,
+      url_links: (data.projectLinks ?? []).filter(l => l && l.trim().length > 0).join(","),
+    };
     try {
-      // Use local Express backend in development, Netlify Function in production
       const apiUrl =
         window.location.hostname === "localhost"
           ? "http://localhost:4000/api/applications"
-          : "/edge-functions/upload";
+          : "/.netlify/functions/applications";
       const resp = await fetch(apiUrl, {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(appData),
       });
-
-      console.log("Fetch completed", resp);
       if (!resp.ok) {
-        // Surface server validation or generic error
         let msg = `Request failed with ${resp.status}`;
         try {
           const j = await resp.json();
@@ -425,11 +407,29 @@ function ApplyPage() {
         throw new Error(msg);
       }
 
-      // (Optional) you can read the created ID:
-      // const json = await resp.json();
-      // console.log("Created application ID:", json.id);
+      // 2. If resume is present, upload it
+      if (data.resume) {
+        const fileForm = new FormData();
+        fileForm.append("resume", data.resume);
+        const uploadUrl =
+          window.location.hostname === "localhost"
+            ? "http://localhost:4000/api/upload"
+            : "/.netlify/functions/upload";
+        const uploadResp = await fetch(uploadUrl, {
+          method: "POST",
+          body: fileForm,
+        });
+        if (!uploadResp.ok) {
+          let msg = `Resume upload failed with ${uploadResp.status}`;
+          try {
+            const j = await uploadResp.json();
+            msg = j?.error || msg;
+          } catch {}
+          setSubmitError(msg);
+          throw new Error(msg);
+        }
+      }
 
-      console.log("Setting submitted to true");
       setSubmitted(true);
     } catch (err: any) {
       setSubmitError(err?.message || "Something went wrong.");
