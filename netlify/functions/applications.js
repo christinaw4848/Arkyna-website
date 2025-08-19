@@ -1,6 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const { applicationSchema } = require('./shared/validators');
-const formidable = require('formidable');
+const { parseMultipartFormData } = require('@netlify/functions');
 
 const prisma = new PrismaClient();
 
@@ -13,27 +13,14 @@ exports.handler = async function(event, context) {
       };
     }
 
-    // Parse multipart/form-data using formidable
-    let data = {};
-    let files = {};
-    try {
-      await new Promise((resolve, reject) => {
-        const form = new formidable.IncomingForm();
-        form.parse({ headers: event.headers, body: event.body }, (err, fields, f) => {
-          if (err) return reject(err);
-          data = fields;
-          files = f;
-          resolve();
-        });
-      });
-    } catch (e) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Invalid form data', details: e.message, stack: e.stack })
-      };
-    }
+    // Parse multipart form data using Netlify's utility
+    const formData = await parseMultipartFormData(event);
 
-    const parsed = applicationSchema.safeParse(data);
+    // Extract fields and file
+    const { name, age, email, school, url_links, resume } = formData;
+
+    // Validate fields (adjust as needed for file handling)
+    const parsed = applicationSchema.safeParse({ name, age, email, school, url_links });
     if (!parsed.success) {
       return {
         statusCode: 400,
@@ -41,28 +28,22 @@ exports.handler = async function(event, context) {
       };
     }
 
-    const { name, age, email, school, url_links } = parsed.data;
+    // Save to database, handle file as needed
+    const created = await prisma.application.create({
+      data: {
+        name,
+        age: age ?? null,
+        email,
+        school,
+        url_links,
+        // You may need to store resume metadata or upload to storage
+      },
+    });
 
-    try {
-      const created = await prisma.application.create({
-        data: {
-          name,
-          age: age ?? null,
-          email,
-          school,
-          url_links,
-        },
-      });
-      return {
-        statusCode: 200,
-        body: JSON.stringify({ id: created.id })
-      };
-    } catch (dbErr) {
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: 'Database error', details: dbErr.message, stack: dbErr.stack })
-      };
-    }
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ id: created.id })
+    };
   } catch (err) {
     return {
       statusCode: 500,
