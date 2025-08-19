@@ -1,7 +1,7 @@
 
 const { PrismaClient } = require('@prisma/client');
 const { applicationSchema } = require('./shared/validators');
-const formidable = require('formidable');
+const { IncomingForm } = require('formidable');
 
 const prisma = new PrismaClient();
 
@@ -17,7 +17,7 @@ exports.handler = async function(event, context) {
     // Parse multipart form data using formidable
     const buffer = Buffer.from(event.body, 'base64');
     const contentType = event.headers['content-type'] || event.headers['Content-Type'];
-    const form = formidable({ multiples: false });
+    const form = new IncomingForm({ multiples: false });
 
     // formidable expects a stream, so create one from the buffer
     const stream = require('stream');
