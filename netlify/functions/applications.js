@@ -1,7 +1,7 @@
 
 const { PrismaClient } = require('@prisma/client');
 const { applicationSchema } = require('./shared/validators');
-const multiparty = require('multiparty');
+const formidable = require('formidable');
 
 const prisma = new PrismaClient();
 
@@ -14,36 +14,37 @@ exports.handler = async function(event, context) {
       };
     }
 
-    // Parse multipart form data using multiparty
-    const form = new multiparty.Form();
+    // Parse multipart form data using formidable
     const buffer = Buffer.from(event.body, 'base64');
-    // multiparty expects a stream, so we create one from the buffer
+    const contentType = event.headers['content-type'] || event.headers['Content-Type'];
+    const form = formidable({ multiples: false });
+
+    // formidable expects a stream, so create one from the buffer
     const stream = require('stream');
     const reqStream = new stream.PassThrough();
     reqStream.end(buffer);
-    // Build a fake req object for multiparty
-    const fakeReq = {
-      headers: event.headers,
-      method: event.httpMethod,
-      pipe: reqStream.pipe.bind(reqStream),
-      on: reqStream.on.bind(reqStream),
-    };
+    reqStream.headers = { 'content-type': contentType };
 
-    // Parse the form
     const formData = await new Promise((resolve, reject) => {
-      form.parse(fakeReq, (err, fields, files) => {
-        if (err) return reject(err);
+      form.parse(reqStream, (err, fields, files) => {
+        if (err) {
+          console.error('Formidable parse error:', err);
+          return reject(err);
+        }
         resolve({ fields, files });
       });
     });
 
+    // Log parsed form data for debugging
+    console.log('Parsed formData:', JSON.stringify(formData));
+
     // Extract fields and file
-    const name = formData.fields.name?.[0] || '';
-    const age = formData.fields.age?.[0] || '';
-    const email = formData.fields.email?.[0] || '';
-    const school = formData.fields.school?.[0] || '';
-    const url_links = formData.fields.url_links?.[0] || '';
-    const resumeFile = formData.files.resume?.[0];
+    const name = formData.fields.name || '';
+    const age = formData.fields.age || '';
+    const email = formData.fields.email || '';
+    const school = formData.fields.school || '';
+    const url_links = formData.fields.url_links || '';
+    const resumeFile = formData.files.resume;
 
     // Validate fields
     const parsed = applicationSchema.safeParse({ name, age, email, school, url_links });
@@ -57,24 +58,38 @@ exports.handler = async function(event, context) {
 
     // Save to database, including resume file if present
     let resumeBytes = null, resumeFilename = null, resumeMimetype = null;
-    if (resumeFile) {
-      resumeBytes = resumeFile.buffer;
+    if (resumeFile && resumeFile.filepath) {
+      const fs = require('fs');
+      try {
+        resumeBytes = fs.readFileSync(resumeFile.filepath);
+      } catch (fileErr) {
+        console.error('Error reading resume file:', fileErr);
+      }
       resumeFilename = resumeFile.originalFilename || null;
-      resumeMimetype = resumeFile.headers['content-type'] || null;
+      resumeMimetype = resumeFile.mimetype || null;
     }
 
-    const created = await prisma.application.create({
-      data: {
-        name,
-        age: age ?? null,
-        email,
-        school,
-        url_links,
-        resumeBytes,
-        resumeFilename,
-        resumeMimetype,
-      },
-    });
+    let created;
+    try {
+      created = await prisma.application.create({
+        data: {
+          name,
+          age: age ?? null,
+          email,
+          school,
+          url_links,
+          resumeBytes,
+          resumeFilename,
+          resumeMimetype,
+        },
+      });
+    } catch (prismaErr) {
+      console.error('Prisma create error:', prismaErr);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Database error', details: prismaErr.message })
+      };
+    }
 
     return {
       statusCode: 200,
