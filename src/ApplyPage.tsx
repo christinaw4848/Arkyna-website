@@ -381,76 +381,36 @@ function ApplyPage() {
     setSubmitError(null);
     const isLocal = window.location.hostname === "localhost";
     try {
-      if (isLocal) {
-        // Local: send JSON to /api/applications, then resume to /api/upload
-        const appData = {
-          name: data.name,
-          age: data.age,
-          email: data.email,
-          school: data.school,
-          url_links: (data.projectLinks ?? []).filter(l => l && l.trim().length > 0).join(","),
-        };
-        const resp = await fetch("http://localhost:4000/api/applications", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(appData),
-        });
-        if (!resp.ok) {
-          let msg = `Request failed with ${resp.status}`;
-          try {
-            const j = await resp.json();
-            msg = j?.error || msg;
-          } catch {}
-          setSubmitError(msg);
-          throw new Error(msg);
-        }
-        // Resume upload (if present)
-        if (data.resume) {
-          const fileForm = new FormData();
-          fileForm.append("resume", data.resume);
-          const uploadResp = await fetch("http://localhost:4000/api/upload", {
-            method: "POST",
-            body: fileForm,
-          });
-          if (!uploadResp.ok) {
-            let msg = `Resume upload failed with ${uploadResp.status}`;
-            try {
-              const j = await uploadResp.json();
-              msg = j?.error || msg;
-            } catch {}
-            setSubmitError(msg);
-            throw new Error(msg);
-          }
-        }
-      } else {
-        // Netlify: send all fields + resume as multipart/form-data
-        const formData = new FormData();
-        formData.append("name", data.name);
-        if (data.age !== undefined && data.age !== null && String(data.age).trim() !== "") {
-          formData.append("age", String(data.age));
-        }
-        formData.append("email", data.email);
-        formData.append("school", data.school);
-        const links = (data.projectLinks ?? []).filter(l => l && l.trim().length > 0);
-        if (links.length > 0) {
-          formData.append("url_links", links.join(","));
-        }
-        if (data.resume) {
-          formData.append("resume", data.resume);
-        }
-        const resp = await fetch("/.netlify/functions/applications", {
-          method: "POST",
-          body: formData,
-        });
-        if (!resp.ok) {
-          let msg = `Request failed with ${resp.status}`;
-          try {
-            const j = await resp.json();
-            msg = j?.error || msg;
-          } catch {}
-          setSubmitError(msg);
-          throw new Error(msg);
-        }
+      // Send all fields + resume as multipart/form-data for both local and Netlify
+      const formData = new FormData();
+      formData.append("name", data.name);
+      if (data.age !== undefined && data.age !== null && String(data.age).trim() !== "") {
+        formData.append("age", String(data.age));
+      }
+      formData.append("email", data.email);
+      formData.append("school", data.school);
+      const links = (data.projectLinks ?? []).filter(l => l && l.trim().length > 0);
+      if (links.length > 0) {
+        formData.append("url_links", links.join(","));
+      }
+      if (data.resume) {
+        formData.append("resume", data.resume);
+      }
+      const apiUrl = isLocal
+        ? "http://localhost:4000/api/applications"
+        : "/.netlify/functions/applications";
+      const resp = await fetch(apiUrl, {
+        method: "POST",
+        body: formData,
+      });
+      if (!resp.ok) {
+        let msg = `Request failed with ${resp.status}`;
+        try {
+          const j = await resp.json();
+          msg = j?.error || msg;
+        } catch {}
+        setSubmitError(msg);
+        throw new Error(msg);
       }
       setSubmitted(true);
     } catch (err: any) {
