@@ -22,13 +22,21 @@ exports.handler = async function(event, context) {
     // Validate fields (adjust as needed for file handling)
     const parsed = applicationSchema.safeParse({ name, age, email, school, url_links });
     if (!parsed.success) {
+      console.error('Validation error:', parsed.error.flatten());
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Invalid form data', details: parsed.error.flatten() })
       };
     }
 
-    // Save to database, handle file as needed
+    // Save to database, including resume file if present
+    let resumeBytes = null, resumeFilename = null, resumeMimetype = null;
+    if (resume && resume.data) {
+      resumeBytes = resume.data;
+      resumeFilename = resume.filename || null;
+      resumeMimetype = resume.contentType || null;
+    }
+
     const created = await prisma.application.create({
       data: {
         name,
@@ -36,7 +44,9 @@ exports.handler = async function(event, context) {
         email,
         school,
         url_links,
-        // You may need to store resume metadata or upload to storage
+        resumeBytes,
+        resumeFilename,
+        resumeMimetype,
       },
     });
 
@@ -45,6 +55,7 @@ exports.handler = async function(event, context) {
       body: JSON.stringify({ id: created.id })
     };
   } catch (err) {
+    console.error('Netlify applications error:', err);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: 'Unhandled error', details: err.message, stack: err.stack })

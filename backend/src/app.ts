@@ -19,6 +19,24 @@ app.use(morgan("dev"));
 app.use(express.json());
 
 // Mount routes
+
+// Resume upload endpoint for local development
+import multer from "multer";
+const upload = multer();
+app.post("/api/upload", upload.single("resume"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).json({ error: "No file uploaded" });
+  }
+  res.json({
+    success: true,
+    file: {
+      name: req.file.originalname,
+      type: req.file.mimetype,
+      size: req.file.size,
+    },
+  });
+});
+
 app.use("/api/applications", applicationsRouter);
 
 const port = Number(process.env.PORT || 4000);
