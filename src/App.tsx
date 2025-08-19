@@ -328,6 +328,12 @@ function MainApp() {
                   desktop and mobile (Android). This app allows users to manage inventory, process payments, 
                   view analytics, and track transactions efficiently.
                 </p>
+                  <div className="mb-4">
+                    <h4 className="text-2xl font-bold text-red-600 mb-2">AI Tools Used:</h4>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="bg-yellow-400 text-red-700 px-3 py-1 rounded-full text-sm font-bold shadow">Bolt</span>
+                    </div>
+                  </div>
                 <div className="mb-4">
                   <h4 className="font-semibold text-gray-900 mb-2">Technologies Used:</h4>
                   <div className="flex flex-wrap gap-2">
@@ -373,6 +379,12 @@ function MainApp() {
                   This innovative AI solution helps bridge generational gaps by creating meaningful connections 
                   through advanced conversational AI technology.
                 </p>
+                    <div className="mb-4">
+                      <h4 className="text-2xl font-bold text-red-600 mb-2">AI Tools Used:</h4>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="bg-blue-400 text-white px-3 py-1 rounded-full text-sm font-bold shadow">ElevenLabs</span>
+                      </div>
+                    </div>
                 <div className="flex space-x-3">
                   <a href="https://github.com/leekycauldron/conversation-ai-RTK" target = "_blank">
                   <button className="flex items-center text-orange-500 hover:text-orange-600 transition-colors">
@@ -395,6 +407,12 @@ function MainApp() {
                 <p className="text-gray-600 mb-4">
                   An interactive web app for forecasting and visualizing financial data. Designed for our projections but adaptable to other projects. Easily create, adjust, and share financial projections for your projects or business ideas.
                 </p>
+                    <div className="mb-4">
+                      <h4 className="text-2xl font-bold text-red-600 mb-2">AI Tools Used:</h4>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="bg-yellow-400 text-red-700 px-3 py-1 rounded-full text-sm font-bold shadow">Bolt</span>
+                      </div>
+                    </div>
                 <div className="mb-4">
                   <h4 className="font-semibold text-gray-900 mb-2">Technologies Used:</h4>
                   <div className="flex flex-wrap gap-2">
@@ -418,6 +436,52 @@ function MainApp() {
                     <button className="flex items-center text-orange-500 hover:text-orange-600 transition-colors">
                       <ExternalLink size={16} className="mr-1" />
                       App Demo
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+                        {/* Dearly Project */}
+            <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+              <div className="h-48 bg-gradient-to-br from-pink-400 to-yellow-300 animate-gradient flex items-center justify-center">
+                <div className="text-white text-5xl font-bold">Dearly</div>
+              </div>
+              <div className="p-8">
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">Dearly</h3>
+                <p className="text-gray-600 mb-4">
+                  A storefront that helps you create heartfelt, personalized gifts powered by AI. Customize your creation with Dearly's AI chat bot to send a meaningful gift.
+                </p>
+                    <div className="mb-4">
+                      <h4 className="text-2xl font-bold text-red-600 mb-2">AI Tools Used:</h4>
+                      <div className="flex flex-wrap gap-2">
+                        <span className="bg-yellow-400 text-red-700 px-3 py-1 rounded-full text-sm font-bold shadow">Bolt</span>
+                        <span className="bg-pink-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow">OpenAI</span>
+                      </div>
+                    </div>
+                <div className="mb-4">
+                  <h4 className="font-semibold text-gray-900 mb-2">Technologies Used:</h4>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="bg-pink-100 text-pink-800 px-3 py-1 rounded-full text-sm">TypeScript</span>
+                    <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm">React</span>
+                    <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Vite</span>
+                    <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">Tailwind CSS</span>
+                    <span className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-sm">OpenAI API</span>
+                  </div>
+                </div>
+                <div className="mb-6">
+                  <h4 className="font-semibold text-gray-900 mb-2">Key Features:</h4>
+                  <ul className="text-gray-600 text-sm space-y-1">
+                    <li>• Share your intentions for a gift or message</li>
+                    <li>• AI-powered creative assistance</li>
+                    <li>• Customize and apply your creation to a real gift</li>
+                  </ul>
+                </div>
+                <div className="flex space-x-3">
+                  <a href="https://github.com/xinfay/dearly" target="_blank">
+                    <button className="flex items-center text-orange-500 hover:text-orange-600 transition-colors">
+                      <Github size={16} className="mr-1" />
+                      GitHub
                     </button>
                   </a>
                 </div>
