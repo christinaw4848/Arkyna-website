@@ -1,7 +1,7 @@
 
 const { PrismaClient } = require('@prisma/client');
 const { applicationSchema } = require('./shared/validators');
-const { IncomingForm } = require('formidable');
+const parseMultipart = require('parse-multipart');
 
 const prisma = new PrismaClient();
 
@@ -17,34 +17,28 @@ exports.handler = async function(event, context) {
     // Parse multipart form data using formidable
     const buffer = Buffer.from(event.body, 'base64');
     const contentType = event.headers['content-type'] || event.headers['Content-Type'];
-    const form = new IncomingForm({ multiples: false });
+    const boundary = parseMultipart.getBoundary(contentType);
+    const parts = parseMultipart.Parse(buffer, boundary);
 
-    // formidable expects a stream, so create one from the buffer
-    const stream = require('stream');
-    const reqStream = new stream.PassThrough();
-    reqStream.end(buffer);
-    reqStream.headers = { 'content-type': contentType };
-
-    const formData = await new Promise((resolve, reject) => {
-      form.parse(reqStream, (err, fields, files) => {
-        if (err) {
-          console.error('Formidable parse error:', err);
-          return reject(err);
-        }
-        resolve({ fields, files });
-      });
-    });
-
-    // Log parsed form data for debugging
-    console.log('Parsed formData:', JSON.stringify(formData));
+    // Log parsed parts for debugging
+    console.log('Parsed parts:', JSON.stringify(parts));
 
     // Extract fields and file
-    const name = formData.fields.name || '';
-    const age = formData.fields.age || '';
-    const email = formData.fields.email || '';
-    const school = formData.fields.school || '';
-    const url_links = formData.fields.url_links || '';
-    const resumeFile = formData.files.resume;
+    let name = '', age = '', email = '', school = '', url_links = '';
+    let resumeBytes = null, resumeFilename = null, resumeMimetype = null;
+    for (const part of parts) {
+      if (part.filename) {
+        resumeBytes = part.data;
+        resumeFilename = part.filename;
+        resumeMimetype = part.type;
+      } else {
+        if (part.name === 'name') name = part.data.toString();
+        if (part.name === 'age') age = part.data.toString();
+        if (part.name === 'email') email = part.data.toString();
+        if (part.name === 'school') school = part.data.toString();
+        if (part.name === 'url_links') url_links = part.data.toString();
+      }
+    }
 
     // Validate fields
     const parsed = applicationSchema.safeParse({ name, age, email, school, url_links });
@@ -54,19 +48,6 @@ exports.handler = async function(event, context) {
         statusCode: 400,
         body: JSON.stringify({ error: 'Invalid form data', details: parsed.error.flatten() })
       };
-    }
-
-    // Save to database, including resume file if present
-    let resumeBytes = null, resumeFilename = null, resumeMimetype = null;
-    if (resumeFile && resumeFile.filepath) {
-      const fs = require('fs');
-      try {
-        resumeBytes = fs.readFileSync(resumeFile.filepath);
-      } catch (fileErr) {
-        console.error('Error reading resume file:', fileErr);
-      }
-      resumeFilename = resumeFile.originalFilename || null;
-      resumeMimetype = resumeFile.mimetype || null;
     }
 
     let created;
