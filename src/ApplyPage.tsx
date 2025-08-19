@@ -407,7 +407,7 @@ function ApplyPage() {
       const apiUrl =
         window.location.hostname === "localhost"
           ? "http://localhost:4000/api/applications"
-          : "/.netlify/functions/applications";
+          : "/edge-functions/upload";
       const resp = await fetch(apiUrl, {
         method: "POST",
         body: formData,
