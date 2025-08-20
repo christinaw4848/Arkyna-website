@@ -45,10 +45,11 @@ exports.handler = async function(event, context) {
           const chunks = [];
           file.on('data', chunk => chunks.push(chunk));
           file.on('end', () => {
-            resumeBytes = Buffer.concat(chunks);
-            resumeFilename = filename;
-            resumeMimetype = mimetype;
-            resumeEncoding = encoding;
+              resumeBytes = Buffer.concat(chunks);
+              // Ensure only strings are assigned, never an object
+              resumeFilename = typeof filename === 'string' ? filename : (filename && filename.filename ? filename.filename : null);
+              resumeMimetype = typeof mimetype === 'string' ? mimetype : null;
+              resumeEncoding = typeof encoding === 'string' ? encoding : null;
           });
         } else {
           file.resume();
