@@ -2,7 +2,7 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-// In browser, go to following link (replace 123 with the id of the application): /.netlify/functions/applications-resume?id=123
+// In browser, go to following link (replace 123 with the id of the application): https://arkyna.ca/.netlify/functions/applications-resume?id=123
 
 
 
