@@ -15,7 +15,9 @@ exports.handler = async function(event, context) {
     }
 
     // Parse multipart form data using parse-multipart
-  const buffer = Buffer.from(event.body, 'base64');
+    const buffer = event.isBase64Encoded
+      ? Buffer.from(event.body, 'base64')
+      : Buffer.from(event.body);
   const contentType = event.headers['content-type'] || event.headers['Content-Type'];
   console.log('Received content-type:', contentType);
   console.log('First 100 bytes of body:', buffer.slice(0, 100).toString('hex'));
@@ -29,10 +31,8 @@ exports.handler = async function(event, context) {
     let boundary;
     try {
       boundary = parseMultipart.getBoundary(contentType);
-      // Remove leading dashes if present
-      if (boundary.startsWith('--')) {
-        boundary = boundary.replace(/^--+/, '');
-      }
+      // Remove all leading dashes
+      boundary = boundary.replace(/^[-]+/, '');
     } catch (bErr) {
       console.error('Error extracting boundary from content-type:', contentType, bErr);
       return {
