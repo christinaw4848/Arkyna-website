@@ -14,11 +14,36 @@ exports.handler = async function(event, context) {
       };
     }
 
-    // Parse multipart form data using formidable
+    // Parse multipart form data using parse-multipart
     const buffer = Buffer.from(event.body, 'base64');
     const contentType = event.headers['content-type'] || event.headers['Content-Type'];
-    const boundary = parseMultipart.getBoundary(contentType);
-    const parts = parseMultipart.Parse(buffer, boundary);
+    if (!contentType) {
+      console.error('Missing content-type header:', event.headers);
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Missing content-type header' })
+      };
+    }
+    let boundary;
+    try {
+      boundary = parseMultipart.getBoundary(contentType);
+    } catch (bErr) {
+      console.error('Error extracting boundary from content-type:', contentType, bErr);
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Invalid content-type header', details: bErr.message })
+      };
+    }
+    let parts;
+    try {
+      parts = parseMultipart.Parse(buffer, boundary);
+    } catch (pErr) {
+      console.error('Error parsing multipart form data:', pErr);
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Malformed multipart form data', details: pErr.message })
+      };
+    }
 
     // Log parsed parts for debugging
     console.log('Parsed parts:', JSON.stringify(parts));
