@@ -62,10 +62,10 @@ exports.handler = async function(event, context) {
   const name = fields.name || '';
   const email = fields.email || '';
   const school = fields.school || '';
-  const url_links = fields.url_links || '';
+  const urlLinks = fields.url_links || '';
 
     // Validate fields
-  const parsed = applicationSchema.safeParse({ name, email, school, url_links });
+  const parsed = applicationSchema.safeParse({ name, email, school, urlLinks });
     if (!parsed.success) {
       console.error('Validation error:', parsed.error.flatten());
       return {
@@ -81,7 +81,7 @@ exports.handler = async function(event, context) {
           name,
           email,
           school,
-          url_links,
+          urlLinks,
           resumeBytes,
           resumeFilename,
           resumeMimetype,
