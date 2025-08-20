@@ -36,7 +36,7 @@ exports.handler = async function(event, context) {
     reqStream.end(buffer);
 
     await new Promise((resolve, reject) => {
-      const busboy = new Busboy({ headers: { 'content-type': contentType } });
+      const busboy = Busboy({ headers: { 'content-type': contentType } });
       busboy.on('field', (fieldname, val) => {
         fields[fieldname] = val;
       });
