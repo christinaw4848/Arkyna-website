@@ -62,7 +62,11 @@ exports.handler = async function(event, context) {
   const name = fields.name || '';
   const email = fields.email || '';
   const school = fields.school || '';
-  const urlLinks = fields.url_links || '';
+    const urlLinks = fields.url_links
+      ? Array.isArray(fields.url_links)
+        ? fields.url_links
+        : fields.url_links.split(',').map(x => x.trim()).filter(Boolean)
+      : [];
 
     // Validate fields
   const parsed = applicationSchema.safeParse({ name, email, school, urlLinks });
