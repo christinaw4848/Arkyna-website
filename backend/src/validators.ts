@@ -2,10 +2,6 @@ import { z } from "zod";
 
 export const applicationSchema = z.object({
   name: z.string().min(1),
-  age: z.preprocess(
-    (v) => (v === "" || v === undefined ? undefined : Number(v)),
-    z.number().int().min(0).max(150).optional()
-  ),
   email: z.email(),
   school: z.string().min(1),
   // url_links may come as a CSV string or array; normalize to array of strings

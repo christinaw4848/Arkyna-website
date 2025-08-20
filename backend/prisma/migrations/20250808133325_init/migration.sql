@@ -2,7 +2,6 @@
 CREATE TABLE "public"."Application" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "age" INTEGER,
     "email" TEXT NOT NULL,
     "school" TEXT NOT NULL,
     "urlLinks" TEXT[],

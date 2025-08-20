@@ -28,7 +28,6 @@ interface PreliminaryFormProps {
 export const PreliminaryForm: React.FC<PreliminaryFormProps> = ({ onSubmit }) => {
   const [formData, setFormData] = useState({
     name: '',
-    age: '',
     email: '',
     school: '',
     projectLinks: ['']
@@ -157,29 +156,7 @@ export const PreliminaryForm: React.FC<PreliminaryFormProps> = ({ onSubmit }) =>
             )}
           </div>
 
-          {/* Age Field */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Age <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="number"
-              value={formData.age}
-              onChange={(e) => handleInputChange('age', e.target.value)}
-              className={`w-full px-4 py-3 border-2 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all ${
-                errors.age ? 'border-red-300' : 'border-gray-200'
-              }`}
-              placeholder="Enter your age"
-              min="18"
-              max="100"
-            />
-            {errors.age && (
-              <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
-                <AlertCircle size={16} />
-                {errors.age}
-              </p>
-            )}
-          </div>
+          {/* Age Field removed */}
 
           {/* Email Field */}
           <div>
@@ -383,12 +360,9 @@ function ApplyPage() {
     try {
       // Send all fields + resume as multipart/form-data for both local and Netlify
       const formData = new FormData();
-      formData.append("name", data.name);
-      if (data.age !== undefined && data.age !== null && String(data.age).trim() !== "") {
-        formData.append("age", String(data.age));
-      }
-      formData.append("email", data.email);
-      formData.append("school", data.school);
+  formData.append("name", data.name);
+  formData.append("email", data.email);
+  formData.append("school", data.school);
       const links = (data.projectLinks ?? []).filter(l => l && l.trim().length > 0);
       if (links.length > 0) {
         formData.append("url_links", links.join(","));

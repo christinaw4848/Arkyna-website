@@ -3,10 +3,7 @@ export const validateEmail = (email: string): boolean => {
   return emailRegex.test(email);
 };
 
-export const validateAge = (age: string): boolean => {
-  const ageNum = parseInt(age);
-  return !isNaN(ageNum) && ageNum >= 18 && ageNum <= 100;
-};
+
 
 export const validateURL = (url: string): boolean => {
   try {
@@ -19,7 +16,6 @@ export const validateURL = (url: string): boolean => {
 
 export const validateForm = (data: {
   name: string;
-  age: string;
   email: string;
   school: string;
   projectLinks: string[];
@@ -28,10 +24,6 @@ export const validateForm = (data: {
 
   if (!data.name.trim()) {
     errors.name = 'Name is required';
-  }
-
-  if (!validateAge(data.age)) {
-    errors.age = 'Please enter a valid age';
   }
 
   if (!validateEmail(data.email)) {

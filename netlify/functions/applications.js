@@ -59,14 +59,13 @@ exports.handler = async function(event, context) {
     });
 
     // Extract fields
-    const name = fields.name || '';
-    const age = fields.age || '';
-    const email = fields.email || '';
-    const school = fields.school || '';
-    const url_links = fields.url_links || '';
+  const name = fields.name || '';
+  const email = fields.email || '';
+  const school = fields.school || '';
+  const url_links = fields.url_links || '';
 
     // Validate fields
-    const parsed = applicationSchema.safeParse({ name, age, email, school, url_links });
+  const parsed = applicationSchema.safeParse({ name, email, school, url_links });
     if (!parsed.success) {
       console.error('Validation error:', parsed.error.flatten());
       return {
@@ -80,7 +79,6 @@ exports.handler = async function(event, context) {
       created = await prisma.application.create({
         data: {
           name,
-          age: age ?? null,
           email,
           school,
           url_links,
