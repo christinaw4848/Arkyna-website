@@ -29,6 +29,10 @@ exports.handler = async function(event, context) {
     let boundary;
     try {
       boundary = parseMultipart.getBoundary(contentType);
+      // Remove leading dashes if present
+      if (boundary.startsWith('--')) {
+        boundary = boundary.replace(/^--+/, '');
+      }
     } catch (bErr) {
       console.error('Error extracting boundary from content-type:', contentType, bErr);
       return {
