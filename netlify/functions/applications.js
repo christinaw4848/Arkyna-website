@@ -15,8 +15,10 @@ exports.handler = async function(event, context) {
     }
 
     // Parse multipart form data using parse-multipart
-    const buffer = Buffer.from(event.body, 'base64');
-    const contentType = event.headers['content-type'] || event.headers['Content-Type'];
+  const buffer = Buffer.from(event.body, 'base64');
+  const contentType = event.headers['content-type'] || event.headers['Content-Type'];
+  console.log('Received content-type:', contentType);
+  console.log('First 100 bytes of body:', buffer.slice(0, 100).toString('hex'));
     if (!contentType) {
       console.error('Missing content-type header:', event.headers);
       return {
