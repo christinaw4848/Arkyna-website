@@ -28,7 +28,7 @@ exports.handler = async function(event, context) {
     }
 
     const fields = {};
-    let resumeBytes = null, resumeFilename = null, resumeMimetype = null;
+  let resumeBytes = null, resumeFilename = null, resumeMimetype = null, resumeEncoding = null;
 
     // Busboy expects a stream
     const stream = require('stream');
@@ -48,6 +48,7 @@ exports.handler = async function(event, context) {
             resumeBytes = Buffer.concat(chunks);
             resumeFilename = filename;
             resumeMimetype = mimetype;
+            resumeEncoding = encoding;
           });
         } else {
           file.resume();
@@ -89,6 +90,7 @@ exports.handler = async function(event, context) {
           resumeBytes,
           resumeFilename,
           resumeMimetype,
+          resumeEncoding,
         },
       });
     } catch (prismaErr) {
