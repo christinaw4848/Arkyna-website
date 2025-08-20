@@ -13,6 +13,7 @@
   "dependencies": {
     "@netlify/functions": "^4.2.2",
     "@prisma/client": "^6.14.0",
+    "busboy": "^1.6.0",
     "formidable": "^3.5.4",
     "lucide-react": "^0.344.0",
     "multiparty": "^4.2.3",

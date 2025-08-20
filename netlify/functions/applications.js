@@ -1,7 +1,7 @@
 
 const { PrismaClient } = require('@prisma/client');
 const { applicationSchema } = require('./shared/validators');
-const parseMultipart = require('parse-multipart');
+const Busboy = require('busboy');
 
 const prisma = new PrismaClient();
 
@@ -14,13 +14,11 @@ exports.handler = async function(event, context) {
       };
     }
 
-    // Parse multipart form data using parse-multipart
+    // Parse multipart form data using busboy
     const buffer = event.isBase64Encoded
       ? Buffer.from(event.body, 'base64')
       : Buffer.from(event.body);
-  const contentType = event.headers['content-type'] || event.headers['Content-Type'];
-  console.log('Received content-type:', contentType);
-  console.log('First 100 bytes of body:', buffer.slice(0, 100).toString('hex'));
+    const contentType = event.headers['content-type'] || event.headers['Content-Type'];
     if (!contentType) {
       console.error('Missing content-type header:', event.headers);
       return {
@@ -28,48 +26,44 @@ exports.handler = async function(event, context) {
         body: JSON.stringify({ error: 'Missing content-type header' })
       };
     }
-    let boundary;
-    try {
-      boundary = parseMultipart.getBoundary(contentType);
-      // Remove all leading dashes
-      boundary = boundary.replace(/^[-]+/, '');
-    } catch (bErr) {
-      console.error('Error extracting boundary from content-type:', contentType, bErr);
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Invalid content-type header', details: bErr.message })
-      };
-    }
-    let parts;
-    try {
-      parts = parseMultipart.Parse(buffer, boundary);
-    } catch (pErr) {
-      console.error('Error parsing multipart form data:', pErr);
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Malformed multipart form data', details: pErr.message })
-      };
-    }
 
-    // Log parsed parts for debugging
-    console.log('Parsed parts:', JSON.stringify(parts));
-
-    // Extract fields and file
-    let name = '', age = '', email = '', school = '', url_links = '';
+    const fields = {};
     let resumeBytes = null, resumeFilename = null, resumeMimetype = null;
-    for (const part of parts) {
-      if (part.filename) {
-        resumeBytes = part.data;
-        resumeFilename = part.filename;
-        resumeMimetype = part.type;
-      } else {
-        if (part.name === 'name') name = part.data.toString();
-        if (part.name === 'age') age = part.data.toString();
-        if (part.name === 'email') email = part.data.toString();
-        if (part.name === 'school') school = part.data.toString();
-        if (part.name === 'url_links') url_links = part.data.toString();
-      }
-    }
+
+    // Busboy expects a stream
+    const stream = require('stream');
+    const reqStream = new stream.PassThrough();
+    reqStream.end(buffer);
+
+    await new Promise((resolve, reject) => {
+      const busboy = new Busboy({ headers: { 'content-type': contentType } });
+      busboy.on('field', (fieldname, val) => {
+        fields[fieldname] = val;
+      });
+      busboy.on('file', (fieldname, file, filename, encoding, mimetype) => {
+        if (fieldname === 'resume') {
+          const chunks = [];
+          file.on('data', chunk => chunks.push(chunk));
+          file.on('end', () => {
+            resumeBytes = Buffer.concat(chunks);
+            resumeFilename = filename;
+            resumeMimetype = mimetype;
+          });
+        } else {
+          file.resume();
+        }
+      });
+      busboy.on('finish', resolve);
+      busboy.on('error', reject);
+      reqStream.pipe(busboy);
+    });
+
+    // Extract fields
+    const name = fields.name || '';
+    const age = fields.age || '';
+    const email = fields.email || '';
+    const school = fields.school || '';
+    const url_links = fields.url_links || '';
 
     // Validate fields
     const parsed = applicationSchema.safeParse({ name, age, email, school, url_links });
