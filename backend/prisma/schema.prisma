@@ -22,6 +22,7 @@ model Application {
   resumeBytes     Bytes?    // optional uploaded file (bytea)
   resumeFilename  String?
   resumeMimetype  String?
+  resumeEncoding  String?
   createdAt       DateTime  @default(now())
 
   @@index([email])

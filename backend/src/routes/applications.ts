@@ -17,8 +17,7 @@ router.post("/", upload.single("resume"), async (req, res) => {
     if (!parsed.success) {
       return res.status(400).json({ error: "Invalid form data", details: parsed.error.flatten() });
     }
-  const { name, email, school, url_links } = parsed.data;
-
+    const { name, email, school, url_links } = parsed.data;
     const file = req.file;
     const created = await prisma.application.create({
       data: {
@@ -29,10 +28,10 @@ router.post("/", upload.single("resume"), async (req, res) => {
         resumeBytes: file ? file.buffer : null,
         resumeFilename: file?.originalname ?? null,
         resumeMimetype: file?.mimetype ?? null,
+        resumeEncoding: file ? (file as any)["encoding"] ?? null : null,
       },
       select: { id: true },
     });
-
     res.status(201).json({ id: created.id, message: "Application submitted" });
   } catch (e) {
     console.error(e);
