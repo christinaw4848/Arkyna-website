@@ -1,16 +1,48 @@
-import React from "react";
 
-const InterviewPage: React.FC = () => (
-  <div className="min-h-screen flex items-center justify-center bg-orange-50">
-    <div className="bg-white rounded-2xl shadow-xl p-10 max-w-lg w-full text-center">
-      <h1 className="text-3xl font-bold text-red-600 mb-4">Application Submitted!</h1>
-      <p className="text-gray-700 mb-6">
-        Thank you for applying to Arkyna. We have received your application and will be in touch soon.<br />
-        (This is a placeholder page for the next interview step.)
-      </p>
-      <a href="/" className="inline-block mt-4 px-6 py-2 bg-gradient-to-r from-orange-400 to-red-500 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-200">Back to Home</a>
+import React, { useEffect } from "react";
+
+const InterviewPage: React.FC = () => {
+  useEffect(() => {
+    // Dynamically add the ElevenLabs widget script
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/@elevenlabs/convai-widget-embed";
+    script.async = true;
+    script.type = "text/javascript";
+    document.body.appendChild(script);
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
+  return (
+    <div className="min-h-screen w-full flex bg-orange-50">
+      {/* Left Panel: Instructions */}
+         <div className="flex-1 p-16 flex flex-col justify-center bg-orange-100 border-r border-orange-200 text-lg">
+           <h2 className="text-4xl font-bold text-red-600 mb-6">Next Step: Interview</h2>
+           <p className="text-gray-700 mb-8 text-xl">
+             Welcome to the last part of your application!<br /><br />
+             <strong className="text-xl">Instructions:</strong>
+             <ul className="list-disc list-inside text-left mt-4 mb-6 text-gray-800 text-lg">
+               <li>Interact with our AI interviewer using the widget on the right.</li>
+               <li>You will be asked a few questions. Answer them as clearly and honestly as possible.</li>
+               <li>You can either speak or type with the interviewer.</li>
+               <li>When finished, your application will be submitted. We'll be in touch soon.</li>
+             </ul>
+             <span className="text-lg">Good luck!</span>
+           </p>
+      </div>
+      {/* Right Panel: ElevenLabs Widget Embed */}
+      <div className="flex-1 flex items-center justify-center bg-white">
+        <div
+          style={{ width: "100%", height: "100%" }}
+          dangerouslySetInnerHTML={{
+            __html:
+              '<elevenlabs-convai agent-id="agent_2101k213j3hde3wthz2h3jqxv73m"></elevenlabs-convai><script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>',
+          }}
+        ></div>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default InterviewPage;
