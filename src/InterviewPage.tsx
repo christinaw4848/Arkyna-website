@@ -24,9 +24,9 @@ const InterviewPage: React.FC = () => {
              <strong className="text-xl">Instructions:</strong>
              <ul className="list-disc list-inside text-left mt-4 mb-6 text-gray-800 text-lg">
                <li>Interact with our AI interviewer using the widget on the right.</li>
-               <li>You will be asked a few questions. Answer them as clearly and honestly as possible.</li>
+               <li>You will be asked a few questions. Answer them clearly and concisely.</li>
                <li>You can either speak or type with the interviewer.</li>
-               <li>When finished, your application will be submitted. We'll be in touch soon.</li>
+               <li>When finished, the interviewer will end the interview, and your application will be submitted. You can then close this tab, and we'll be in touch soon.</li>
              </ul>
              <span className="text-lg">Good luck!</span>
            </p>
