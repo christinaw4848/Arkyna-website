@@ -17,7 +17,7 @@ const InterviewPage: React.FC = () => {
   return (
     <div className="min-h-screen w-full flex bg-orange-50">
       {/* Left Panel: Instructions */}
-         <div className="flex-1 p-16 flex flex-col justify-center bg-orange-100 border-r border-orange-200 text-lg">
+         <div className="flex-1 p-16 flex flex-col justify-center bg-white border-r border-orange-200 text-lg">
            <h2 className="text-4xl font-bold text-red-600 mb-6">Next Step: Interview</h2>
            <p className="text-gray-700 mb-8 text-xl">
              Welcome to the last part of your application!<br /><br />
@@ -31,13 +31,13 @@ const InterviewPage: React.FC = () => {
              <span className="text-lg">Good luck!</span>
            </p>
       </div>
-      {/* Right Panel: ElevenLabs Widget Embed */}
-      <div className="flex-1 flex items-center justify-center bg-white">
+  {/* Right Panel: ElevenLabs Widget Embed */}
+  <div className="flex-1 flex items-center justify-center bg-orange-100">
         <div
           style={{ width: "100%", height: "100%" }}
           dangerouslySetInnerHTML={{
             __html:
-              '<elevenlabs-convai agent-id="agent_2101k213j3hde3wthz2h3jqxv73m"></elevenlabs-convai><script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>',
+              '<elevenlabs-convai agent-id="agent_2201k3s114rxfvetvydsy2642g18"></elevenlabs-convai><script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>',
           }}
         ></div>
       </div>

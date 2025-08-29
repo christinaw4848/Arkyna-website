@@ -385,6 +385,14 @@ function MainApp() {
                         <span className="bg-blue-400 text-white px-3 py-1 rounded-full text-sm font-bold shadow">ElevenLabs</span>
                       </div>
                     </div>
+                      {/* Demo Section */}
+                      <div className="mb-4">
+                        <h4 className="font-semibold text-gray-900 mb-2">Demo:</h4>
+                        <audio controls className="w-full">
+                          <source src="/cai_demo.mp3" type="audio/mpeg" />
+                          Your browser does not support the audio element.
+                        </audio>
+                      </div>
                 <div className="flex space-x-3">
                   <a href="https://github.com/leekycauldron/conversation-ai-RTK" target = "_blank">
                   <button className="flex items-center text-orange-500 hover:text-orange-600 transition-colors">
