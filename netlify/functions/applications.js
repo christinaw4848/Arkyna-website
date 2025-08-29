@@ -119,7 +119,7 @@ exports.handler = async function(event, context) {
         },
       });
       const subject = 'New Application Submitted';
-      const text = `A new application was submitted on the Arkyna site. Check Neon for details.\n\nName: ${name}\nEmail: ${email}\nSchool: ${school}\nLinks: ${urlLinks.join(', ')}`;
+      const text = `A new application was submitted on the Arkyna site. Here's a preview:\n\nName: ${name}\nEmail: ${email}\nSchool: ${school}\n\nCheck Neon for more details.`;
       await transporter.sendMail({
         from: userEmail,
         to: userEmail,
