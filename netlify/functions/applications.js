@@ -106,7 +106,7 @@ exports.handler = async function(event, context) {
 
     // Send notification email after successful insert
     try {
-      const userEmail = 'christinaw4848@gmail.com';
+      const userEmail = 'arkyn2024@gmail.com';
       const appPassword = process.env.GMAIL_APP_PASSWORD;
       if (!appPassword) {
         throw new Error('GMAIL_APP_PASSWORD environment variable not set.');
