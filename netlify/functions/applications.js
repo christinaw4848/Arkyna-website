@@ -1,7 +1,9 @@
 
+
 const { PrismaClient } = require('@prisma/client');
 const { applicationSchema } = require('./shared/validators');
 const Busboy = require('busboy');
+const nodemailer = require('nodemailer');
 
 const prisma = new PrismaClient();
 
@@ -100,6 +102,33 @@ exports.handler = async function(event, context) {
         statusCode: 500,
         body: JSON.stringify({ error: 'Database error', details: prismaErr.message })
       };
+    }
+
+    // Send notification email after successful insert
+    try {
+      const userEmail = 'christinaw4848@gmail.com';
+      const appPassword = process.env.GMAIL_APP_PASSWORD;
+      if (!appPassword) {
+        throw new Error('GMAIL_APP_PASSWORD environment variable not set.');
+      }
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: userEmail,
+          pass: appPassword,
+        },
+      });
+      const subject = 'New Application Submitted';
+      const text = `A new application was submitted on the Arkyna site. Check Neon for details.\n\nName: ${name}\nEmail: ${email}\nSchool: ${school}\nLinks: ${urlLinks.join(', ')}`;
+      await transporter.sendMail({
+        from: userEmail,
+        to: userEmail,
+        subject,
+        text,
+      });
+    } catch (mailErr) {
+      console.error('Email notification error:', mailErr);
+      // Optionally, you can return a warning but not fail the request
     }
 
     return {
