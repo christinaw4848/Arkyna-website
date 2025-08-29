@@ -518,7 +518,7 @@ function MainApp() {
               </div>
             </div>
             
-            <div className="flex space-x-6">
+            {/* <div className="flex space-x-6">
               <button className="text-gray-400 hover:text-orange-400 transition-colors">
                 <Mail size={20} />
               </button>
@@ -528,7 +528,7 @@ function MainApp() {
               <button className="text-gray-400 hover:text-orange-400 transition-colors">
                 <Linkedin size={20} />
               </button>
-            </div>
+            </div> */}
           </div>
           
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
